@@ -1,0 +1,207 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+    <style>
+        #mapContainer {
+            width: 50%;
+            height: 20rem;
+            margin: 0 auto 2rem auto;
+        }
+    </style>
+        <div class="container">
+            <div class="row mt-5">
+                <div class="col-lg-6">
+                    <div id="carouselExample" class="carousel slide">
+                        <div class="carousel-inner">
+                          
+                          <% for( let idx in pc.image) { %>
+                            <div class="carousel-item <%= idx==0?'active':'' %>">
+                                <img src="<%= pc.image[idx] %>" class="d-block w-100" alt="...">
+                            </div>
+                          <% } %>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="visually-hidden">Next</span>
+                        </button>
+                      </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <strong>Name</strong>
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <%= pc.name %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <strong>Price</strong>
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <%= pc.price %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <Strong>Quantity</Strong>
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <%= pc.quantity %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    <Strong>Description</Strong>
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <%= pc.description %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    <Strong>Created At</Strong>
+                                </button>
+                            </h2>
+                            <div id="collapseFive" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <%= moment(pc.createdAt).format('MM-DD-YYYY') %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                                    <Strong>Average Rating</Strong>
+                                </button>
+                            </h2>
+                            <div id="collapseSix" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <%= pc.averageRating.toFixed(2) %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                                    <Strong>Shop address</Strong>
+                                </button>
+                            </h2>
+                            <div id="collapseSeven" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <%= pc.address %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% if (currentUser) { %>
+                        <div class="mt-3 d-flex">
+                            <a href="/pcs/<%= pc._id %>/edit" class="btn btn-warning me-3">Edit</a>
+                            <form action="/pcs/<%= pc._id %>/?_method=delete" method="post">
+                                <input type="submit" value="Delete" class="btn btn-danger">
+                            </form>
+                        </div>
+                    <% } %>
+                    <div class="mt-3">
+                        <a href="/pcs/<%= pc._id %>/reviews/new" class="btn btn-primary">Add a review</a>
+                        <a href="/pcs/<%= pc._id %>/checkout" class="btn btn-success">Buy now</a>
+                        <a style="color: <%= likeExists?'green':'black' %>; font-size: 2rem;" href="/pcs/<%= pc._id %>/upvote"><i class="bi bi-hand-thumbs-up-fill"></i></a>
+                        <span><%= pc.upvotes.length %></span>
+                        <a style="color: <%= dislikeExists?'red':'black' %>; font-size: 2rem;" href="/pcs/<%= pc._id %>/downvote"><i class="bi bi-hand-thumbs-down-fill"></i></a>
+                        <span><%= pc.downvotes.length %></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1 class="mt-3">Reviews</h1>
+                    <% for( let review of reviews ) { %>
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title"><%= review.title %></h5>
+                                <p class="card-text"><%= review.body %></p>
+                                <div class="progress" role="progressbar" aria-label="Example with label"
+                                    aria-valuenow="<%= 20*review.stars %>" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="progress-bar" style="width: <%= 20*review.stars %>%"><%= review.stars %></div>
+                                </div>
+                                <div class="d-flex">
+                                    <a href="/pcs/<%= pc._id %>/reviews/<%= review._id %>/edit" class="mt-3 btn btn-warning btn-sm">Edit</a>
+                                    <form action="/pcs/<%= pc._id %>/reviews/<%= review._id %>?_method=delete" method="post">
+                                        <input type="submit" value="Delete" class="ms-2 mt-3 btn btn-danger">
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <%= review.user %>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+            <div id="mapContainer"></div>
+        </div>
+        
+        <script>
+            let arr = [];
+            arr.push(<%- pc.location.coordinates[0] %>);
+            arr.push(<%- pc.location.coordinates[1] %>);
+            mapboxgl.accessToken = 'pk.eyJ1IjoicmtyYiIsImEiOiJjbGw2aDFyZWkwb3ZjM3FsYXNxNXgyYzRkIn0.vGSMbnxl36iSDV37fWu9Cw';
+            const map = new mapboxgl.Map({
+                container: 'mapContainer', // container ID
+                // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+                style: 'mapbox://styles/mapbox/streets-v12', // style URL
+                center: arr, // starting position [lng, lat]
+                zoom: 15 // starting zoom
+            });
+            
+            const popup = new mapboxgl.Popup({})
+                .setHTML(
+                    '<h5><%= pc.address %></h5>'
+                );
+                
+            const marker1 = new mapboxgl.Marker({color: 'red'})
+                .setLngLat([<%- pc.location.coordinates %>])
+                .setPopup(popup)
+                .addTo(map);
+            map.addControl(new mapboxgl.NavigationControl());
+        </script>
+        <%- include('../partials/footer') %>

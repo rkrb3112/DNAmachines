@@ -1,0 +1,78 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 m-auto">
+                    <h1 class="text-center mt-3">New Page</h1>
+                    <form class="needs-validation" action="/pcs" method="post" enctype="multipart/form-data" novalidate>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input required type="text" class="form-control" id="name" name="pc[name]">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Name is required
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input required type="number" class="form-control" id="price" name="pc[price]">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter price
+                            </div>
+                        </div>
+                        <div class="form-floating">
+                            <textarea required class="form-control" placeholder="Leave a comment here" id="description"
+                                name="pc[description]"></textarea>
+                            <label for="description">Description</label>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Description is required
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input required type="number" class="form-control" id="quantity" name="pc[quantity]">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Quantity is required
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Shop address</label>
+                            <input required type="text" class="form-control" id="address" name="pc[address]">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Shop address is required
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Images</label>
+                            <input required class="form-control" type="file" id="formFile" multiple name="image">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Atleast one image is required
+                            </div>
+                        </div>
+
+
+                        <button type="submit" class="mt-3 btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="/validate.js"></script>
+        <%- include('../partials/footer') %>

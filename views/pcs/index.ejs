@@ -1,0 +1,20 @@
+<%- include('../partials/header') %>
+<%- include('../partials/navbar') %>
+<h1>Index Page</h1>
+<div class="container">
+    <div class="row mt-5">
+        <% for( let pc of pcs ) { %>
+        <div class="col-lg-4">
+            <div class="card" style="width: 18rem;">
+                <img src="<%= pc.image[0] %>" class="card-img-top" alt="...">
+                <div class="card-body">
+                <h5 class="card-title"><%= pc.name %></h5>
+                <p class="card-text"><%= pc.price %></p>
+                <a href="/pcs/<%= pc._id %>" class="btn btn-primary">More details</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<%- include('../partials/footer') %>
